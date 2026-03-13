@@ -3,21 +3,23 @@
 日本語の単語を入力すると、同じ母音パターンを持つ単語を見つけるWebアプリ & パブリックAPI。
 ラップ、歌詞、詩作、言葉遊びなど、韻を踏みたいすべての人のためのツールです。
 
+このアプリはClaudeCodeを用いたAI駆動開発により作成しました。
+
 ## デモ
 
-> 🔗 **[デモURL]** （デプロイ後に記入）
+> 🔗 **[https://rhymee.vercel.app/](https://rhymee.vercel.app/)**
 
 ## 技術スタック
 
-| カテゴリ     | 技術                          |
-| ------------ | ----------------------------- |
-| Frontend     | Next.js 14+ (App Router)      |
-| Styling      | Tailwind CSS                  |
-| Backend      | Next.js API Routes            |
-| Database     | Supabase (PostgreSQL)         |
-| 形態素解析   | kuromoji.js (IPAdic)          |
-| Language      | TypeScript (strict mode)      |
-| Deploy       | Vercel + Supabase             |
+| カテゴリ   | 技術                     |
+| ---------- | ------------------------ |
+| Frontend   | Next.js 14+ (App Router) |
+| Styling    | Tailwind CSS             |
+| Backend    | Next.js API Routes       |
+| Database   | Supabase (PostgreSQL)    |
+| 形態素解析 | kuromoji.js (IPAdic)     |
+| Language   | TypeScript (strict mode) |
+| Deploy     | Vercel + Supabase        |
 
 ## アーキテクチャ
 
