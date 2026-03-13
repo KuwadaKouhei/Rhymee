@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rhymee - 日本語韻検索 API & Web アプリ
 
-## Getting Started
+日本語の単語を入力すると、同じ母音パターンを持つ単語を見つけるWebアプリ & パブリックAPI。
+ラップ、歌詞、詩作、言葉遊びなど、韻を踏みたいすべての人のためのツールです。
 
-First, run the development server:
+## デモ
+
+> 🔗 **[デモURL]** （デプロイ後に記入）
+
+## 技術スタック
+
+| カテゴリ     | 技術                          |
+| ------------ | ----------------------------- |
+| Frontend     | Next.js 14+ (App Router)      |
+| Styling      | Tailwind CSS                  |
+| Backend      | Next.js API Routes            |
+| Database     | Supabase (PostgreSQL)         |
+| 形態素解析   | kuromoji.js (IPAdic)          |
+| Language      | TypeScript (strict mode)      |
+| Deploy       | Vercel + Supabase             |
+
+## アーキテクチャ
+
+```mermaid
+graph LR
+    A[ブラウザ] -->|検索リクエスト| B[Next.js Frontend]
+    B -->|fetch /api/rhyme| C[API Route]
+    C -->|形態素解析| D[kuromoji.js]
+    C -->|母音変換| E[vowel.ts]
+    C -->|DB検索| F[Supabase PostgreSQL]
+    F -->|結果| C
+    C -->|JSON| B
+    B -->|表示| A
+
+    G[seed.ts] -->|辞書データ抽出| D
+    G -->|バッチINSERT| F
+```
+
+## セットアップ
+
+### 前提条件
+
+- Node.js 18+
+- npm
+- Supabase プロジェクト
+
+### 1. リポジトリのクローン
+
+```bash
+git clone <repository-url>
+cd rhyme-finder
+npm install
+```
+
+### 2. 環境変数の設定
+
+```bash
+cp .env.local.example .env.local
+```
+
+`.env.local` を編集して Supabase の接続情報を設定:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGci...
+```
+
+### 3. データベースのセットアップ
+
+Supabase のダッシュボードで SQL Editor を開き、マイグレーションを実行:
+
+```sql
+-- supabase/migrations/001_create_words.sql の内容を実行
+```
+
+### 4. 辞書データの投入
+
+```bash
+npm run seed
+```
+
+kuromoji.js の内蔵辞書から単語データを抽出し、Supabase に投入します。
+
+### 5. 開発サーバーの起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:3000 でアプリが起動します。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API 仕様
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+詳細は [docs/api.md](docs/api.md) を参照してください。
 
-## Learn More
+### クイックスタート
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# 「東京」と韻を踏む単語を検索
+curl "http://localhost:3000/api/rhyme?word=東京"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 完全一致モードで検索
+curl "http://localhost:3000/api/rhyme?word=東京&mode=exact"
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# ランダム順で取得
+curl "http://localhost:3000/api/rhyme?word=東京&shuffle=true"
+```
 
-## Deploy on Vercel
+## 主な機能
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **3つの検索モード**: 完全一致 / 末尾一致 / 部分一致
+- **韻スコアリング**: 母音一致を前提に、子音の一致度で 0〜100% のスコアを算出（100% は同音異義語のみ）
+- **シャッフル機能**: ランダム順での結果表示
+- **ページネーション**: 大量の結果を50件ずつ表示
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 今後の拡張予定
+
+- [ ] レートリミットの実装
+- [ ] API キー認証
+- [ ] ユーザー辞書の登録機能
+- [ ] お気に入り保存機能
+- [ ] 韻を踏んだフレーズの自動生成（AI連携）
+- [ ] NEologd 辞書への対応（新語・固有名詞の拡充）

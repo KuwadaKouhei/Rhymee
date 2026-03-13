@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm i:*)",
+      "Bash(npm run:*)",
+      "WebSearch",
+      "Bash(node -e \":*)",
+      "Bash(node scripts/check-pos.js)",
+      "Bash(curl -s \"http://localhost:3000/api/rhyme?word=%E6%9D%B1%E4%BA%AC&mode=exact&limit=20\")",
+      "Bash(node -e \"const kuromoji=require\\(''kuromoji''\\);const path=require\\(''path''\\);kuromoji.builder\\({dicPath:path.resolve\\(''node_modules/kuromoji/dict''\\)}\\).build\\(\\(e,t\\)=>{const d=t.token_info_dictionary;const m=d.target_map;for\\(const k in m\\){for\\(const id of m[k]\\){const f=d.getFeatures\\(id\\);if\\(f&&f.includes\\(''ボツボツ''\\)\\){console.log\\(''raw:'',f\\);const p=f.split\\('',''\\);console.log\\(''index7:'',p[7],''index8:'',p[8]\\);break;}}}}\\)\")",
+      "Bash(curl -s \"http://localhost:3000/api/rhyme?word=%E6%9D%B1%E4%BA%AC&mode=exact&limit=15\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\u13234\\Documents\\学習\\Rhymee\\rhyme-finder",
+      "\\tmp"
+    ]
+  }
+}
