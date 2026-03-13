@@ -14,7 +14,24 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Rhymee - 日本語韻検索",
-  description: "日本語の単語を入力すると、同じ母音パターンを持つ単語を見つけます",
+  description:
+    "日本語の単語を入力すると、同じ母音パターンを持つ単語を見つけます。韻を踏むラップやポエムの作成に。",
+  metadataBase: new URL("https://rhymee.vercel.app"),
+  openGraph: {
+    title: "Rhymee - 日本語韻検索エンジン",
+    description:
+      "日本語の単語を入力すると、同じ母音パターンを持つ単語を見つけます。スコアリング機能付き。",
+    url: "https://rhymee.vercel.app",
+    siteName: "Rhymee",
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rhymee - 日本語韻検索エンジン",
+    description:
+      "日本語の韻を見つけよう。母音パターン検索 & スコアリング。",
+  },
 };
 
 export default function RootLayout({
