@@ -15,18 +15,22 @@ export default function ScoreRing({ score, size = 40 }: ScoreRingProps) {
   const offset = circumference - (score / 100) * circumference;
 
   const color =
-    score >= 80
-      ? "stroke-emerald-500 dark:stroke-emerald-400"
-      : score >= 50
-        ? "stroke-amber-500 dark:stroke-amber-400"
-        : "stroke-zinc-400 dark:stroke-zinc-500";
+    score === 100
+      ? "stroke-rose-500 dark:stroke-rose-400"
+      : score >= 80
+        ? "stroke-emerald-500 dark:stroke-emerald-400"
+        : score >= 50
+          ? "stroke-amber-500 dark:stroke-amber-400"
+          : "stroke-zinc-400 dark:stroke-zinc-500";
 
   const textColor =
-    score >= 80
-      ? "fill-emerald-600 dark:fill-emerald-400"
-      : score >= 50
-        ? "fill-amber-600 dark:fill-amber-400"
-        : "fill-zinc-500 dark:fill-zinc-400";
+    score === 100
+      ? "fill-rose-600 dark:fill-rose-400"
+      : score >= 80
+        ? "fill-emerald-600 dark:fill-emerald-400"
+        : score >= 50
+          ? "fill-amber-600 dark:fill-amber-400"
+          : "fill-zinc-500 dark:fill-zinc-400";
 
   return (
     <svg width={size} height={size} className="shrink-0">
