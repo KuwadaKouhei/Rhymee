@@ -1,0 +1,35 @@
+# Supabase 無料枠の一時停止を防ぐ定期ジョブ
+# 7日間アクティビティがないとpauseされるため、週2回DBにpingを飛ばす
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # 毎週水曜と日曜の00:00 UTC（日本時間 09:00）に実行
+    - cron: '0 0 * * 0,3'
+  workflow_dispatch: # 手動実行も可能
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Database
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Pinging Supabase to prevent inactivity pause..."
+
+          # REST API経由でシンプルなクエリを実行
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+
+          echo "Response status: ${RESPONSE}"
+
+          if [ "$RESPONSE" -eq 200 ]; then
+            echo "✅ Supabase is alive!"
+          else
+            echo "❌ Ping failed with status: ${RESPONSE}"
+            exit 1
+          fi
