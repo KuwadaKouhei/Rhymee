@@ -106,13 +106,13 @@ http://localhost:3000 でアプリが起動します。
 
 ```bash
 # 「東京」と韻を踏む単語を検索
-curl "http://localhost:3000/api/rhyme?word=東京"
+curl "https://rhymee.vercel.app/api/rhyme?word=東京"
 
 # 完全一致モードで検索
-curl "http://localhost:3000/api/rhyme?word=東京&mode=exact"
+curl "https://rhymee.vercel.app/api/rhyme?word=東京&mode=exact"
 
 # ランダム順で取得
-curl "http://localhost:3000/api/rhyme?word=東京&shuffle=true"
+curl "https://rhymee.vercel.app/api/rhyme?word=東京&shuffle=true"
 ```
 
 ## 主な機能
